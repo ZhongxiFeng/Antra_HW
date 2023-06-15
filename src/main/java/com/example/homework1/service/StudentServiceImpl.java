@@ -28,7 +28,7 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public List<Student> getAllStudents() {
-        int a = 1/0;//test exception Handler
+        //int a = 1/0;//test exception Handler
         log.info("[myInfo]-try to get all students-[myInfo]");
         return studentRepository.findAll();
     }
@@ -38,5 +38,35 @@ public class StudentServiceImpl implements StudentService{
         log.info("[myInfo]-try to get student by Id "+id+" -[myInfo]");
         Optional<Student> student = studentRepository.findById(id);
         return student.orElse(null);
+    }
+
+    @Override
+    public Student insertNewStudent(String name, Integer age) {
+        log.info("[myInfo]-try to insert new student with name=["+name+"], age=["+age+"] -[myInfo]");
+        Student student = new Student();
+        student.setName(name);
+        student.setAge(age);
+        Student savedStudent = studentRepository.save(student);
+        return savedStudent;
+    }
+
+    @Override
+    public Student updateStudentById(int id,String name, Integer age) {
+        if(getStudentById(id)!=null){
+            log.info("[myInfo]-try to update student with id=["+id+"] => set name=["+name+"], age=["+age+"] -[myInfo]");
+            Student student = new Student();
+            student.setId(id);
+            student.setName(name);
+            student.setAge(age);
+            Student savedStudent = studentRepository.save(student);
+            return savedStudent;
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteStudentById(int id) {
+        log.info("[myInfo]-try to delete student with id=["+id+"]-[myInfo]");
+        studentRepository.deleteById(id);
     }
 }

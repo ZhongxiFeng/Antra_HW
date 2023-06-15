@@ -40,4 +40,22 @@ public class StudentController {
         Student student = studentService.getStudentById(Integer.parseInt(id));
         return new ResponseEntity<>(student,HttpStatus.OK);
     }
+
+    @PutMapping(value = "/student",params = {"name","age"})
+    public ResponseEntity<Student> insertNewStudent(@RequestParam("name")String name,@RequestParam("age")Integer age){
+        Student student = studentService.insertNewStudent(name, age);
+        return new ResponseEntity<>(student,HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/student", params = {"id","name","age"})
+    public ResponseEntity<Student> updateStudent(@RequestParam("id")Integer id,@RequestParam("name")String name,@RequestParam("age")Integer age){
+        Student student = studentService.updateStudentById(id, name, age);
+        return new ResponseEntity<>(student,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/student/{id}")
+    public ResponseEntity<String> deleteStudent(@PathVariable("id")Integer id){
+        studentService.deleteStudentById(id);
+        return new ResponseEntity<>("Delete Successfully",HttpStatus.OK);
+    }
 }
