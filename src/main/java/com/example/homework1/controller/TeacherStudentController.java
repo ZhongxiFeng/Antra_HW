@@ -1,12 +1,14 @@
 package com.example.homework1.controller;
 
 import com.example.homework1.pojo.TeacherStudent;
+import com.example.homework1.response.ResponseData;
 import com.example.homework1.service.TeacherStudentServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,8 +26,10 @@ public class TeacherStudentController {
     }
 
     @GetMapping("/teacherStudent")
-    public ResponseEntity<List<TeacherStudent>> getAllTeacherStudents() {
+    public ResponseData getAllTeacherStudents() {
         List<TeacherStudent> allTeacherStudents = teacherStudentService.getAllTeacherStudents();
-        return new ResponseEntity<>(allTeacherStudents, HttpStatus.OK);
+        ResponseData responseData = new ResponseData();
+        responseData.put("allTeacherStudents",allTeacherStudents);
+        return responseData;
     }
 }

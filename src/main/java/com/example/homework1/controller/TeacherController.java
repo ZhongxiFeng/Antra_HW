@@ -1,6 +1,7 @@
 package com.example.homework1.controller;
 
 import com.example.homework1.pojo.Teacher;
+import com.example.homework1.response.ResponseData;
 import com.example.homework1.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -27,14 +29,18 @@ public class TeacherController {
     }
 
     @GetMapping("/teacher")
-    public ResponseEntity<List<Teacher>> getAllTeacher(){
+    public ResponseData getAllTeacher(){
         List<Teacher> allTeachers = teacherService.getAllTeachers();
-        return new ResponseEntity<>(allTeachers, HttpStatus.OK);
+        ResponseData responseData = new ResponseData();
+        responseData.put("allTeachers",allTeachers);
+        return responseData;
     }
 
     @GetMapping("/teacher/{id}")
-    public ResponseEntity<Teacher> getTeacherById(@PathVariable Integer id){
+    public ResponseData getTeacherById(@PathVariable Integer id){
         Teacher teacher = teacherService.getTeacherById(id);
-        return new ResponseEntity<>(teacher,HttpStatus.OK);
+        ResponseData responseData = new ResponseData();
+        responseData.put("teacher",teacher);
+        return responseData;
     }
 }

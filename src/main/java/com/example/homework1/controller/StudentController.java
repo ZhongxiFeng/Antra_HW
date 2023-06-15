@@ -1,6 +1,7 @@
 package com.example.homework1.controller;
 
 import com.example.homework1.pojo.Student;
+import com.example.homework1.response.ResponseData;
 import com.example.homework1.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,31 +33,41 @@ public class StudentController {
     }
 
     @GetMapping("/student")
-    public ResponseEntity<List<Student>> getAllStudents(){
+    public ResponseData getAllStudents(){
         List<Student> allStudents = studentService.getAllStudents();
-        return new ResponseEntity<>(allStudents, HttpStatus.OK);
+        ResponseData responseData = new ResponseData();
+        responseData.put("allStudents",allStudents);
+        return responseData;
     }
     @GetMapping("/student/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable String id){
+    public ResponseData getStudentById(@PathVariable String id){
         Student student = studentService.getStudentById(Integer.parseInt(id));
-        return new ResponseEntity<>(student,HttpStatus.OK);
+        ResponseData responseData = new ResponseData();
+        responseData.put("student",student);
+        return responseData;
     }
 
     @PutMapping(value = "/student",params = {"name","age"})
-    public ResponseEntity<Student> insertNewStudent(@RequestParam("name")String name,@RequestParam("age")Integer age){
+    public ResponseData insertNewStudent(@RequestParam("name")String name,@RequestParam("age")Integer age){
         Student student = studentService.insertNewStudent(name, age);
-        return new ResponseEntity<>(student,HttpStatus.OK);
+        ResponseData responseData = new ResponseData();
+        responseData.put("student",student);
+        return responseData;
     }
 
     @PutMapping(value = "/student", params = {"id","name","age"})
-    public ResponseEntity<Student> updateStudent(@RequestParam("id")Integer id,@RequestParam("name")String name,@RequestParam("age")Integer age){
+    public ResponseData updateStudent(@RequestParam("id")Integer id,@RequestParam("name")String name,@RequestParam("age")Integer age){
         Student student = studentService.updateStudentById(id, name, age);
-        return new ResponseEntity<>(student,HttpStatus.OK);
+        ResponseData responseData = new ResponseData();
+        responseData.put("student",student);
+        return responseData;
     }
 
     @DeleteMapping("/student/{id}")
-    public ResponseEntity<String> deleteStudent(@PathVariable("id")Integer id){
+    public ResponseData deleteStudent(@PathVariable("id")Integer id){
         studentService.deleteStudentById(id);
-        return new ResponseEntity<>("Delete Successfully",HttpStatus.OK);
+        ResponseData responseData = new ResponseData();
+        responseData.put("message","Delete Successfully");
+        return responseData;
     }
 }
